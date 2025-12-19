@@ -156,13 +156,12 @@ void can_set_forwarding(uint8_t from, uint8_t to) {
   bus_config[from].forwarding_bus = to;
 }
 #endif
-
 void ignition_can_hook(CANPacket_t *msg) {
   int bus = GET_BUS(msg);
-  if (bus == 0) {
-    int addr = GET_ADDR(msg);
-    int len = GET_LEN(msg);
+  int addr = GET_ADDR(msg);
+  int len = GET_LEN(msg);
 
+  if (bus == 0) {
     // GM exception
     if ((addr == 0x1F1) && (len == 8)) {
       // SystemPowerMode (2=Run, 3=Crank Request)
@@ -205,11 +204,7 @@ void ignition_can_hook(CANPacket_t *msg) {
       ignition_can_cnt = 0U;
     }
 
-  }
-  else if(bus == 2)
-  {
-    int addr = GET_ADDR(msg);
-    int len = GET_LEN(msg);
+  } else if (bus == 2) {
     // PSA exception
     if ((addr == 0x432) && (len == 8)) {
       int counter = msg->data[1] & 0xFU;
