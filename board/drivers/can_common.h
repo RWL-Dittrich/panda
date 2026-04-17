@@ -206,12 +206,18 @@ void ignition_can_hook(CANPacket_t *msg) {
       ignition_can = (msg->data[5] & 0x6U) != 0U;
       ignition_can_cnt = 0U;
     }
+  }
 
-    // body exception
-    if (((msg->bus == 0U) || (msg->bus == 2U)) && (msg->addr == 0x201U)) {
-      ignition_can = true;
-      ignition_can_cnt = 0U;
-    }
+  // body exception
+  if (((msg->bus == 0U) || (msg->bus == 2U)) && (msg->addr == 0x201U)) {
+    ignition_can = true;
+    ignition_can_cnt = 0U;
+  }
+
+  // body v2 exception
+  if (((msg->bus == 0U) || (msg->bus == 2U)) && (msg->addr == 0x222U)) {
+    ignition_can = true;
+    ignition_can_cnt = 0U;
   }
 }
 
